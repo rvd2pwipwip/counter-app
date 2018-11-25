@@ -1,0 +1,12 @@
+1.cd to new project folder in terminal to create new counter=app project:
+create-react-app counter-app
+
+2.cd in counter-app folder to start the app:
+npm start
+
+3.install bootstrap library in project folder:
+npm i bootstrap@4.1.1
+
+4.import bootstrap lib in index.js of project:
+import "bootstrap/dist/css/bootstrap.css";
+
