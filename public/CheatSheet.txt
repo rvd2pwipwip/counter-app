@@ -1,12 +1,59 @@
 1.cd to new project folder in terminal to create new counter=app project:
 create-react-app counter-app
-
 2.cd in counter-app folder to start the app:
 npm start
-
 3.install bootstrap library in project folder:
 npm i bootstrap@4.1.1
-
 4.import bootstrap lib in index.js of project:
 import "bootstrap/dist/css/bootstrap.css";
-
+5.create new components folder inside src folder
+6.create new counter.jsx component inside components directory
+7.in counter.jsx, import react component and create a component class (imrc cc)
+8.name the new component Counter:
+import React, { Component } from 'react';
+class Counter extends Component {
+  state = {  }
+  render() { 
+    return (  );
+  }
+}
+ 
+export default Counter;
+9.return a simple <h1/> element wiht jsx:
+render() { 
+  return <h1>Hello World</h1>;
+}
+10.import <Counter/> component in App.js and render it in root div:
+import Counter from "./components/counter";
+ReactDOM.render(<Counter />, document.getElementById("root"));
+11.add a button in the <Counter/> component, inside <React.Fragment/>:
+return (
+  <React.Fragment>
+    <h1>Hello World</h1>
+    <button>Increment</button>
+  </React.Fragment>
+);
+11.in the state object of <Counter/>, create a count key with a value of 0:
+state = {
+  count: 0
+};
+12.replace <h1> with <span> and replace Hello World with dynamic value of state count:
+<span>{this.state.count}</span> //{} means JS expression
+13.create formatCount() method in <Counter/> that returns 'Zero' or count value:
+formatCount() {
+  return this.state.count === 0 ? "Zero" : this.state.count;
+}
+14.object destructuring of state for better DRY code:
+formatCount() {
+  const { count } = this.state;
+  return count === 0 ? "Zero" : count;
+}
+15.call formatCount() inside <span/> of <Counter/> render() method:
+render() {
+  return (
+    <React.Fragment>
+      <span>{this.formatCount()}</span>
+      <button>Increment</button>
+    </React.Fragment>
+  );
+}
