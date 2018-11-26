@@ -57,3 +57,85 @@ render() {
     </React.Fragment>
   );
 }
+16.add an <img/> tag inside the <React.Fragment/> tag
+17.add an imageUrl property to the Counter state object:
+state = {
+  count: 0,
+  imageUrl: "https://picsum.photos/200"
+};
+18.add the state url link to the <img/> src attribute:
+<React.Fragment>
+  <img src={this.state.imageUrl} alt="" />
+  <span>{this.formatCount()}</span>
+  <button>Increment</button>
+</React.Fragment>
+19.delete <img/> tag and state imageUrl
+20.give <span/> a className for two bootstrap classes (badge and badge-primary):
+<React.Fragment>
+  <span className="badge badge-primary">{this.formatCount()}</span>
+  <button>Increment</button>
+</React.Fragment>
+21.add bootstrap m-2 class to the <span/> className to add margin:
+<span className="badge badge-primary m-2">{this.formatCount()}</span>
+22.add bootstrap btn btn-secondary btn-sm classes to the <button/> tag:
+<button className="btn btn-secondary btn-sm">Increment</button>
+23.below the <Counter/> state object, create a styles object with css attributes:
+styles = {
+  fontSize: 10,
+  fontWeight: "bold"
+};
+23.add styles to the <span/> tag:
+<span style={this.styles} className="badge badge-primary m-2">
+  {this.formatCount()}
+</span>
+24.another way to add style is the inline method:
+<span style={{ fontSize: 30 }} className="badge badge-primary m-2">
+25.delete the styles object and the style attribute (we will only use class to define style):
+<React.Fragment>
+  <span className="badge badge-primary m-2">{this.formatCount()}</span>
+  <button className="btn btn-secondary btn-sm">Increment</button>
+</React.Fragment>
+26.render class dynamically to change color of badge when value === 0
+in render() method, define a const classes and set it to a string of the 2 common bootstrap classes:
+const classes = "badge m-2";
+27.change const classes to let classes because classes will be modified:
+let classes = "badge m-2";
+28.if count === 0 append badge-waring to classes, otherwise, append badge-primary:
+render() {
+  let classes = "badge m-2";
+  classes += this.state.count === 0 ? ` badge-warning` : ` badge-primary`;
+  return (
+    <React.Fragment>
+      <span className={classes}>{this.formatCount()}</span>
+      <button className="btn btn-secondary btn-sm">Increment</button>
+    </React.Fragment>
+  );
+}
+29.for better DRY code:
+let classes = "badge m-2 badge-";
+classes += this.state.count === 0 ? `warning` : `primary`;
+30.remove classes details from render() method with refactor shortcut (ctrl+shift+R):
+getBadgeClasses() {
+  let classes = "badge m-2 badge-";
+  classes += this.state.count === 0 ? `warning` : `primary`;
+  return classes;
+}
+
+render() {
+  let classes = this.getBadgeClasses();
+  return (
+    <React.Fragment>
+      <span className={classes}>{this.formatCount()}</span>
+      <button className="btn btn-secondary btn-sm">Increment</button>
+    </React.Fragment>
+  );
+}
+31.call the getBadgeClasses() method directly in <span/> className:
+render() {
+  return (
+    <React.Fragment>
+      <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+      <button className="btn btn-secondary btn-sm">Increment</button>
+    </React.Fragment>
+  );
+}
