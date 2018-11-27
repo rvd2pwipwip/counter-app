@@ -139,3 +139,58 @@ render() {
     </React.Fragment>
   );
 }
+32.add a tags array with 3 tags in it to the Counter state object:
+state = {
+  count: 0,
+  tags: ['tag1', 'tag2', 'tag3']
+};
+33.render a <ul/> with a <li/> element for each element in this.state.tags:
+<React.Fragment>
+  <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+  <button className="btn btn-secondary btn-sm">Increment</button>
+  <ul>
+    {this.state.tags.map(tag => (
+      <li>{tag}</li>
+    ))}
+  </ul>
+</React.Fragment>
+34.assign a key to each child in map iterator (react requirement):
+<li key={tag}>{tag}</li>
+35.if the tags array of state is empty, render an empty state message, otherwise, render the tags:
+renderTags() {
+  if (this.state.tags.length === 0) return <p>No tags to render</p>;
+  return (
+    <ul>
+      {this.state.tags.map(tag => (
+        <li key={tag}>{tag}</li>
+      ))}
+    </ul>
+  );
+}
+
+render() {
+  return (
+    <React.Fragment>
+      {this.renderTags()}
+    </React.Fragment>
+  );
+}
+
+36.or do the above conditional rendering with ternary operator:
+render(){
+    return this.state.tags.length === 0 ? <p>No tags to render</p> : <ul>{this.state.tags.map(tag => <li key={tag}>{tag}</li>)}</ul>
+  }
+37.create onClick attribute of <button/> and set it to handleIncrement():
+handleIncrement() {
+  console.log("increment");
+}
+...
+<button onClick={this.handleIncrement} className="btn btn-secondary btn-sm">Increment</button>
+38.transform handleIncrement() into an arrow function to inherit this (else this is undefined):
+handleIncrement = () => {
+  console.log("increment clicked", this);
+};
+39.increment value of state.count when increment <button/> is clicked and update state:
+handleIncrement = () => {
+  this.setState({ count: this.state.count + 1 });
+};
