@@ -194,3 +194,9 @@ handleIncrement = () => {
 handleIncrement = () => {
   this.setState({ count: this.state.count + 1 });
 };
+40.to pass an argument to handleIncrement(), it should be called as an arrow function inside the button's onClick:
+onClick={() => this.handleIncrement(this.state.count)}
+41.handleIncrement() can receive the paased argument:
+handleIncrement = e => { //e is the event argment passed from the onClick arrow function
+  this.setState({ count: e + 1 });
+};

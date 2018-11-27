@@ -2,8 +2,8 @@ import React, { Component } from "react";
 class Counter extends Component {
   state = {
     count: 1,
-    // tags: ["tag1", "tag2", "tag3"]
-    tags: []
+    tags: ["tag1", "tag2", "tag3"]
+    // tags: []
   };
 
   formatCount() {
@@ -28,8 +28,10 @@ class Counter extends Component {
     );
   }
 
-  handleIncrement = () => {
-    this.setState({ count: this.state.count + 1 });
+  handleIncrement = e => {
+    //e is the event argment passed from the onClick arrow function
+    console.log(e);
+    this.setState({ count: e + 1 });
   };
 
   render() {
@@ -37,7 +39,7 @@ class Counter extends Component {
       <>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
         <button
-          onClick={this.handleIncrement}
+          onClick={() => this.handleIncrement(this.state.count)}
           className="btn btn-secondary btn-sm"
         >
           Increment
