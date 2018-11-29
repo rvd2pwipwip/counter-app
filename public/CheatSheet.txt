@@ -266,3 +266,24 @@ formatCount() {
   const { value } = this.state;
   return value === 0 ? "Zero" : value;
 }
+50.in Counters.jsx, create a <h4/> that is a child element of <Counter/>:
+<Counter key={c.id} value={c.value}>
+  <h4>Title</h4>
+</Counter>
+51.in the render() method of Counter, console.log(this.props) to view special children props:
+{value: 0, children: {…}}
+52.render the children element inside the return of Counter's render():
+<>
+  {this.props.children}
+  <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+  <button
+    onClick={() => this.handleIncrement(this.state.value)}
+    className="btn btn-secondary btn-sm"
+  >
+    Increment
+  </button>
+</>
+53.in Counters.jsx, make <Counter/> children value dynamic to render the counter id:
+<Counter key={c.id} value={c.value}>
+  <h4>Counter #{c.id}</h4>
+</Counter>
