@@ -200,3 +200,69 @@ onClick={() => this.handleIncrement(this.state.count)}
 handleIncrement = e => { //e is the event argment passed from the onClick arrow function
   this.setState({ count: e + 1 });
 };
+41.create a Counters.jsx file in the components folder and import it in index.js (replacing Counter with Counters):
+import Counters from "./components/Counters";
+...
+ReactDOM.render(<Counters />, document.getElementById("root"));
+42.create the Counters component code (imrc cc) and name the class Counters:
+import React, { Component } from "react";
+
+class Counters extends Component {
+  state = {};
+  render() {
+    return ();
+  }
+}
+
+export default Counters;
+43.import Counter to render <Counter/> components in the <Counters/> component:
+import React, { Component } from "react";
+import Counter from "./Counter";
+
+class Counters extends Component {
+  state = {};
+  render() {
+    return (
+      <>
+        <Counter />
+        <Counter />
+        <Counter />
+        <Counter />
+      </>
+    );
+  }
+}
+44.add an array of Counter objects to the Components state to render each Counter dynamically:
+state = {
+  counters: []
+};
+45.each counter in the state counters array should have a unique id and a value:
+state = {
+  counters: [
+    { id: 1, value: 0 },
+    { id: 2, value: 1 },
+    { id: 3, value: 2 },
+    { id: 4, value: 3 }
+  ]
+};
+46.render each counter from state with a map function inside the render return:
+render() {
+  return (
+    <>
+      {this.state.counters.map(c => (
+        <Counter key={c.id} />
+      ))}
+    </>
+  );
+}
+47.add value prop to <Counter/>:
+<Counter key={c.id} value={c.value}/>
+48.in Counter.jsx, initialize the state count to this.props.value:
+state = {
+  count: this.props.value
+};
+49.rename count to value (F2) everywhere:
+formatCount() {
+  const { value } = this.state;
+  return value === 0 ? "Zero" : value;
+}
