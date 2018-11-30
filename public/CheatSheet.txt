@@ -287,3 +287,52 @@ formatCount() {
 <Counter key={c.id} value={c.value}>
   <h4>Counter #{c.id}</h4>
 </Counter>
+54.delete every line of code related to children...
+55.add a delete button to each counter:
+<button className="btn btn-danger btn-sm m-2">Delete</button>
+///////////   WES BOS WAY   ///////////////
+Pass down parent handleDelete to child component with props
+56.the counters are stored in the <Counters/> state so the handleDelete() should be in that component:
+class Counters extends Component {
+  state = {
+    counters: [
+      { id: 1, value: 0 },
+      { id: 2, value: 1 },
+      { id: 3, value: 2 },
+      { id: 4, value: 3 }
+    ]
+  };
+
+  handleDelete = id => {
+    console.log(id);
+  };
+  ...
+57.pass the handleDelete() of <Counters/> to the props of <Counter/> so it can be used with onClick of <Counter/>:
+<Counter
+  key={c.id}
+  value={c.value}
+  id={c.id}
+  handleDelete={this.handleDelete}
+/>
+58.in Counter.jsx, call the handleDelete that was passed through props  as an => function 
+with the counter id argument:
+<button
+  className="btn btn-danger btn-sm m-2"
+  onClick={() => {
+    this.props.handleDelete(this.props.id);
+  }}
+>
+  Delete
+</button>
+59.define handleDelete in Counters.jsx to delete the counter and update the <Counters/> state:
+handleDelete = id => {
+  // 1.copy state counters
+  let counters = [...this.state.counters];
+  // 2.update copy of state
+  counters = this.state.counters.filter(c => c.id !== id);
+  // 3.set new counters object to state
+  this.setState({ counters });
+};
+
+///////////   MOSH WAY   ///////////////
+Raise onDelete event to parent component
