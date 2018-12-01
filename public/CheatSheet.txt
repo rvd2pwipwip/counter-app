@@ -336,3 +336,135 @@ handleDelete = id => {
 
 ///////////   MOSH WAY   ///////////////
 Raise onDelete event to parent component
+
+60.add a reset button to the render() of <Counters/>:
+<button
+  className="btn btn-primary btn-sm m-2 "
+  onClick={this.handleReset}
+>
+  Reset
+</button>
+61.create the handleReset => function in <Counters/>:
+handleReset = () => {
+  // 1.copy state counters
+  let counters = [...this.state.counters];
+  console.log(counters);
+  // 2.update copy of state
+  counters = counters.map(c => (c.value = 0));
+  console.log(counters);
+  // 3.set new counters object to state
+  this.setState({ counters });
+};
+
+this will not work properly because there is no single source of truth and the following code:
+class Counter extends Component {
+  state = {
+    value: this.props.value
+  };
+is local to <Counter/> and is only executed once, when the component loads 
+(value is not updated properly when value it is reset inside <Counters/>)
+62.refactor by deleting the state property of <Counter/> 
+and replace all references to this.state with this.props:
+import React, { Component } from "react";
+class Counter extends Component {
+  formatCount() {
+    const { value } = this.props;
+    return value === 0 ? "Zero" : value;
+  }
+
+  getBadgeClasses() {
+    let classes = "badge m-2 badge-";
+    classes += this.props.value === 0 ? `warning` : `primary`;
+    return classes;
+  }
+
+  render() {
+    return (
+      <div>
+        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        <button
+          onClick={() => this.props.handleIncrement(this.props.id)}
+          className="btn btn-secondary btn-sm"
+        >
+          Increment
+        </button>
+        <button
+          className="btn btn-danger btn-sm m-2"
+          onClick={() => {
+            this.props.handleDelete(this.props.id);
+          }}
+        >
+          Delete
+        </button>
+      </div>
+    );
+  }
+}
+
+export default Counter;
+63.move handleIncrement from <Counter/> to <Counters/> and pass it down to <Counter/> via props:
+handleIncrement = e => {
+  //e is the event argument passed by the onClick of <Counter/> Increment button (id)
+  // 1.copy state counters
+  const counters = [...this.state.counters];
+  // 2.find counter with clicked id and increment its value by 1
+  counters.find(c => c.id === e).value++;
+  // 3.set new counters object to state
+  this.setState({ counters });
+};
+
+<Counter
+  key={c.id}
+  value={c.value}
+  id={c.id}
+  handleDelete={this.handleDelete}
+  handleIncrement={this.handleIncrement}
+/>
+////// to simplify handleIncrement ///////
+64.refactor <Counter/> in Counters.jsx to pass counter props instead of separate id and value:
+{this.state.counters.map(c => (
+  <Counter
+    key={c.id}
+    counter={c}
+    handleDelete={this.handleDelete}
+    handleIncrement={this.handleIncrement}
+  />
+))}
+65.in Counter.jsx, change references to this.props.value and this.props.id to
+this.props.counter.value and this.props.counter.id respectively:
+formatCount() {
+  const { value } = this.props.counter;
+  return value === 0 ? "Zero" : value;
+}
+
+getBadgeClasses() {
+  let classes = "badge m-2 badge-";
+  classes += this.props.counter.value === 0 ? `warning` : `primary`;
+  return classes;
+}
+...
+<button
+  className="btn btn-danger btn-sm m-2"
+  onClick={() => {
+    this.props.handleDelete(this.props.counter.id);
+  }}
+>
+  Delete
+</button>
+66.in Counter.jsx Increment button, pass counter instead of id in handleIncrement => function:
+<button
+  onClick={() => this.props.handleIncrement(this.props.counter)}
+  className="btn btn-secondary btn-sm"
+>
+  Increment
+</button>
+67.update simplified handleIncrement of <Counters/>:
+handleIncrement = e => {
+  //e is the event argument passed by the onClick of <Counter/> increment button (counter)
+  // 1.copy state counters
+  const counters = [...this.state.counters];
+  // 2.increment value of counter by 1
+  e.value++;
+  // 3.set new counters object to state
+  this.setState({ counters });
+};

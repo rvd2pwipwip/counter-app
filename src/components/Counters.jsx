@@ -11,11 +11,30 @@ class Counters extends Component {
     ]
   };
 
-  handleDelete = id => {
+  handleReset = () => {
     // 1.copy state counters
     let counters = [...this.state.counters];
     // 2.update copy of state
-    counters = this.state.counters.filter(c => c.id !== id);
+    counters.map(c => (c.value = 0));
+    // 3.set new counters object to state
+    this.setState({ counters });
+  };
+
+  handleDelete = e => {
+    // 1.copy state counters
+    let counters = [...this.state.counters];
+    // 2.update copy of state
+    counters = counters.filter(c => c !== e);
+    // 3.set new counters object to state
+    this.setState({ counters });
+  };
+
+  handleIncrement = e => {
+    //e is the event argument passed by the onClick of <Counter/> increment button (counter)
+    // 1.copy state counters
+    const counters = [...this.state.counters];
+    // 2.find counter in copied array and increment its value by 1
+    counters.find(c => c === e).value++;
     // 3.set new counters object to state
     this.setState({ counters });
   };
@@ -23,13 +42,18 @@ class Counters extends Component {
   render() {
     return (
       <>
+        <button
+          className="btn btn-primary btn-sm m-2 "
+          onClick={this.handleReset}
+        >
+          Reset
+        </button>
         {this.state.counters.map(c => (
           <Counter
             key={c.id}
-            value={c.value}
-            id={c.id}
-            // counter={c}
+            counter={c}
             handleDelete={this.handleDelete}
+            handleIncrement={this.handleIncrement}
           />
         ))}
       </>
