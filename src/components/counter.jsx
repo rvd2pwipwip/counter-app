@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 class Counter extends Component {
+  componentWillUnmount() {
+    console.log("component unmounted");
+  }
+
   formatCount() {
     const { value } = this.props.counter; // object destructuring to read value of counter
     return value === 0 ? "Zero" : value;
@@ -12,6 +16,7 @@ class Counter extends Component {
   }
 
   render() {
+    console.log("Counter rendered");
     return (
       <div>
         <span className={this.getBadgeClasses()}>{this.formatCount()}</span>

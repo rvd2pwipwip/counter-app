@@ -571,3 +571,130 @@ return (
     </a>
   </nav>
 );
+78.transform Navbar.jsx into a stateless functional component by
+a)changing the class into an arrow function:
+const Navbar = () => {
+  return (  );
+}
+b)passing the props as the => argument:
+const Navbar = props => {
+  return (  );
+}
+c)moving the return from the class into the return of => and get rid of the class code:
+const Navbar = props => {
+  return (
+    <nav className="navbar navbar-light bg-light">
+      <a className="navbar-brand" href="#">
+        Navbar{" "}
+        <span className="badge badge-pill badge-secondary">
+          {this.props.totalCounters}
+        </span>
+      </a>
+    </nav>
+  );
+};
+
+export default Navbar;
+d)change reference to {this.props.totalCounters} into {props.totalCounters}:
+<span className="badge badge-pill badge-secondary">
+  {props.totalCounters}
+</span>
+e)remove named import { Component } from react import:
+import React from "react";
+79.use object destructuring of arguments (here from props totalCounters of props):
+const Navbar = ({ totalCounters }) => {
+  return (
+    <nav className="navbar navbar-light bg-light">
+      <a className="navbar-brand" href="#">
+        Navbar{" "}
+        <span className="badge badge-pill badge-secondary">
+          {totalCounters}
+        </span>
+      </a>
+    </nav>
+  );
+};
+80.use object destructuring of arguments in Counters.jsx also:
+class Counters extends Component {
+  render() {
+    const { handleReset, counters, handleDelete, handleIncrement } = this.props; //destructuring
+    return (
+      <>
+        <button className="btn btn-primary btn-sm m-2 " onClick={handleReset}>
+          Reset
+        </button>
+        {counters.map(c => (
+          <Counter
+            key={c.id}
+            counter={c}
+            handleDelete={handleDelete}
+            handleIncrement={handleIncrement}
+          />
+        ))}
+      </>
+    );
+  }
+}
+
+export default Counters;
+//////// Life cycle hooks ////////////
+//////// Mounting phase ////////////
+//constructor()
+called only once when component is created; it can then be passed
+props argument to set the state directly
+81.add a constructor() to App.js and pass props:
+constructor(props) {
+  super(props);
+  console.log("App constructor", props);
+  // this.state = props.something;
+}
+//componentDidMount()
+called after component is rendered; it can then make AJAX calls to get data from a server
+82.add a componentDidMount() to App.js:
+componentDidMount() {
+  // Ajax call
+  // this.setState({ movies })
+  console.log("App mounted");
+}
+//render()
+83.add a console.log() to the <App/> component render() and all its child components
+to view order of outputs in console:
+App constructor
+App rendered
+Navbar rendered
+Counters rendered
+4 Counter rendered
+App mounted
+//////// Updating phase ////////////
+84.clear the console and click an increment button:
+App rendered
+Navbar rendered
+Counters rendered
+4 Counter rendered
+85.add a componentDidUpdate() { fake Ajax call } in Counters.jsx:
+componentDidUpdate(prevProps) {
+  if (prevProps.counters !== this.props.counters) {
+    //Ajax call and get new data from server
+    console.log("getting new data");
+  } else {
+    console.log("do nothing");
+  }
+}
+86.click an increment button:
+App rendered
+Navbar rendered
+Counters rendered
+4 Counter rendered
+getting new data
+//////// Unmounting phase ////////////
+86.add a componentWillUnmount() in Counter.jsx:
+componentWillUnmount() {
+  console.log("component unmounted");
+}
+87.click on a delete button:
+App rendered
+Navbar rendered
+Counters rendered
+3 Counter rendered
+component unmounted
+getting new data

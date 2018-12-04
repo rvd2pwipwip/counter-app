@@ -13,6 +13,18 @@ class App extends Component {
     ]
   };
 
+  // life cycle hooks
+  constructor() {
+    super();
+    console.log("App constructor");
+  }
+
+  componentDidMount() {
+    // Ajax call
+    // this.setState({ movies })
+    console.log("App mounted");
+  }
+
   handleReset = () => {
     // 1.copy state counters
     let counters = [...this.state.counters];
@@ -42,6 +54,7 @@ class App extends Component {
   };
 
   render() {
+    console.log("App rendered");
     return (
       <>
         <Navbar
