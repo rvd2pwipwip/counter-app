@@ -698,3 +698,46 @@ Counters rendered
 3 Counter rendered
 component unmounted
 getting new data
+88.in Counter.jsx, put the counters in a bootstrap table and add a decrement button 
+with a disabled state when value is 0:
+render() {
+  return (
+    <div className="row">
+      <div className="col-1">
+        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+      </div>
+      <div className="col">
+        <button
+          onClick={() => this.props.handleIncrement(this.props.counter)}
+          className="btn btn-secondary btn-sm"
+        >
+          +
+        </button>
+        <button
+          onClick={() => this.props.handleDecrement(this.props.counter)}
+          className="btn btn-secondary btn-sm m-2"
+          disabled={this.props.counter.value === 0}
+        >
+          -
+        </button>
+        <button
+          className="btn btn-danger btn-sm"
+          onClick={() => {
+            this.props.handleDelete(this.props.counter);
+          }}
+        >
+          x
+        </button>
+      </div>
+    </div>
+  );
+}
+89.create the handleDecrement() in App.js and pass it down to <Counters/> then <Counter> via props:
+handleDecrement = e => {
+  const counters = [...this.state.counters];
+  // 2.find counter in copied array and increment its value by 1
+  counters.find(c => c === e).value--;
+  // 3.set new counters object to state
+  this.setState({ counters });
+};
+

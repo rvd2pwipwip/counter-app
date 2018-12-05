@@ -14,16 +14,16 @@ class App extends Component {
   };
 
   // life cycle hooks
-  constructor() {
-    super();
-    console.log("App constructor");
-  }
+  // constructor() {
+  //   super();
+  //   console.log("App constructor");
+  // }
 
-  componentDidMount() {
-    // Ajax call
-    // this.setState({ movies })
-    console.log("App mounted");
-  }
+  // componentDidMount() {
+  //   // Ajax call
+  //   // this.setState({ movies })
+  //   console.log("App mounted");
+  // }
 
   handleReset = () => {
     // 1.copy state counters
@@ -53,8 +53,15 @@ class App extends Component {
     this.setState({ counters });
   };
 
+  handleDecrement = e => {
+    const counters = [...this.state.counters];
+    // 2.find counter in copied array and increment its value by 1
+    counters.find(c => c === e).value--;
+    // 3.set new counters object to state
+    this.setState({ counters });
+  };
+
   render() {
-    console.log("App rendered");
     return (
       <>
         <Navbar
@@ -65,6 +72,7 @@ class App extends Component {
             handleReset={this.handleReset}
             handleDelete={this.handleDelete}
             handleIncrement={this.handleIncrement}
+            handleDecrement={this.handleDecrement}
             counters={this.state.counters}
           />
         </main>

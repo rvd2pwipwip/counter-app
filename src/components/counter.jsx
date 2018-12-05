@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 class Counter extends Component {
-  componentWillUnmount() {
-    console.log("component unmounted");
-  }
+  // componentWillUnmount() {
+  //   console.log("component unmounted");
+  // }
 
   formatCount() {
     const { value } = this.props.counter; // object destructuring to read value of counter
@@ -16,24 +16,34 @@ class Counter extends Component {
   }
 
   render() {
-    console.log("Counter rendered");
     return (
-      <div>
-        <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
-        <button
-          onClick={() => this.props.handleIncrement(this.props.counter)}
-          className="btn btn-secondary btn-sm"
-        >
-          Increment
-        </button>
-        <button
-          className="btn btn-danger btn-sm m-2"
-          onClick={() => {
-            this.props.handleDelete(this.props.counter);
-          }}
-        >
-          Delete
-        </button>
+      <div className="row">
+        <div className="col-1">
+          <span className={this.getBadgeClasses()}>{this.formatCount()}</span>
+        </div>
+        <div className="col">
+          <button
+            onClick={() => this.props.handleIncrement(this.props.counter)}
+            className="btn btn-secondary btn-sm"
+          >
+            +
+          </button>
+          <button
+            onClick={() => this.props.handleDecrement(this.props.counter)}
+            className="btn btn-secondary btn-sm m-2"
+            disabled={this.props.counter.value === 0}
+          >
+            -
+          </button>
+          <button
+            className="btn btn-danger btn-sm"
+            onClick={() => {
+              this.props.handleDelete(this.props.counter);
+            }}
+          >
+            x
+          </button>
+        </div>
       </div>
     );
   }
